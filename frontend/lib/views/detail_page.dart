@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/item.dart';
 import '../providers/cart_provider.dart';
 import '../theme/genshin_theme.dart';
+import 'cart_page.dart';
 
 class DetailPage extends StatefulWidget {
   final Item item;
@@ -30,31 +31,31 @@ class _DetailPageState extends State<DetailPage> {
 
   void _handleAddToCart() {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    
-    
+
     final error = cartProvider.addItem(widget.item, _selectedQuantity);
 
     if (error != null) {
-      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: GenshinTheme.accentRed,
           content: Text(
             error,
-            style: const TextStyle(color: GenshinTheme.bgDark, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: GenshinTheme.bgDark, fontWeight: FontWeight.bold),
           ),
         ),
       );
     } else {
-      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: GenshinTheme.primaryGold,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           content: Row(
             children: [
-              const Icon(Icons.check_circle_outline, color: GenshinTheme.bgDark),
+              const Icon(Icons.check_circle_outline,
+                  color: GenshinTheme.bgDark),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
@@ -71,12 +72,16 @@ class _DetailPageState extends State<DetailPage> {
             label: 'VIEW CART',
             textColor: GenshinTheme.bgDark,
             onPressed: () {
-              Navigator.pop(context); 
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CartPage()),
+              );
             },
           ),
         ),
       );
-      setState(() => _selectedQuantity = 1); 
+      setState(() => _selectedQuantity = 1);
     }
   }
 
@@ -104,7 +109,6 @@ class _DetailPageState extends State<DetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
@@ -113,7 +117,8 @@ class _DetailPageState extends State<DetailPage> {
                     width: double.infinity,
                     decoration: const BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(color: GenshinTheme.primaryGold, width: 1.5),
+                        bottom: BorderSide(
+                            color: GenshinTheme.primaryGold, width: 1.5),
                       ),
                     ),
                     child: GenshinTheme.buildItemImage(
@@ -122,7 +127,6 @@ class _DetailPageState extends State<DetailPage> {
                       iconSize: 100,
                     ),
                   ),
-                  
                   Container(
                     height: 100,
                     decoration: const BoxDecoration(
@@ -133,16 +137,17 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ),
                   ),
-                  
                   Positioned(
                     bottom: 16,
                     left: 16,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 6),
                       decoration: BoxDecoration(
                         color: GenshinTheme.bgCard,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: GenshinTheme.primaryGold, width: 1),
+                        border: Border.all(
+                            color: GenshinTheme.primaryGold, width: 1),
                       ),
                       child: Text(
                         '✨ ${item.type.toUpperCase()}',
@@ -156,14 +161,11 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                 ],
               ),
-
-              
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,7 +176,8 @@ class _DetailPageState extends State<DetailPage> {
                             children: [
                               Text(
                                 item.name,
-                                style: Theme.of(context).textTheme.displayMedium,
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
                               ),
                               const SizedBox(height: 4),
                               Text(
@@ -189,11 +192,13 @@ class _DetailPageState extends State<DetailPage> {
                         ),
                         const SizedBox(width: 12),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 10),
                           decoration: BoxDecoration(
                             color: const Color(0xFF1E293B),
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: GenshinTheme.primaryGold, width: 1),
+                            border: Border.all(
+                                color: GenshinTheme.primaryGold, width: 1),
                           ),
                           child: Text(
                             '${item.price.toStringAsFixed(0)} Mora',
@@ -207,8 +212,6 @@ class _DetailPageState extends State<DetailPage> {
                       ],
                     ),
                     const SizedBox(height: 24),
-
-                    
                     Text(
                       'Lore & Description',
                       style: GoogleFonts.cinzel(
@@ -219,14 +222,13 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ),
                     const SizedBox(height: 8),
-
-                    
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: GenshinTheme.bgCard,
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: const Color(0xFF334155), width: 1),
+                        border: Border.all(
+                            color: const Color(0xFF334155), width: 1),
                       ),
                       child: Text(
                         item.description,
@@ -234,8 +236,6 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ),
                     const SizedBox(height: 24),
-
-                    
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -248,7 +248,8 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
                             color: isOutOfStock
                                 ? const Color(0x33EF4444)
@@ -256,9 +257,13 @@ class _DetailPageState extends State<DetailPage> {
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
-                            isOutOfStock ? 'SOLD OUT' : '${item.stock} Items Available',
+                            isOutOfStock
+                                ? 'SOLD OUT'
+                                : '${item.stock} Items Available',
                             style: GoogleFonts.inter(
-                              color: isOutOfStock ? GenshinTheme.accentRed : Colors.green[400],
+                              color: isOutOfStock
+                                  ? GenshinTheme.accentRed
+                                  : Colors.green[400],
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
                             ),
@@ -267,8 +272,6 @@ class _DetailPageState extends State<DetailPage> {
                       ],
                     ),
                     const Divider(height: 40, color: Color(0xFF334155)),
-
-                    
                     if (!isOutOfStock) ...[
                       Text(
                         'Select Purchase Quantity',
@@ -286,16 +289,19 @@ class _DetailPageState extends State<DetailPage> {
                             decoration: BoxDecoration(
                               color: GenshinTheme.bgCard,
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: GenshinTheme.primaryGold, width: 1.5),
+                              border: Border.all(
+                                  color: GenshinTheme.primaryGold, width: 1.5),
                             ),
                             child: Row(
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.remove, color: GenshinTheme.primaryGold),
+                                  icon: const Icon(Icons.remove,
+                                      color: GenshinTheme.primaryGold),
                                   onPressed: _decrementQuantity,
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   child: Text(
                                     '$_selectedQuantity',
                                     style: GoogleFonts.inter(
@@ -306,20 +312,21 @@ class _DetailPageState extends State<DetailPage> {
                                   ),
                                 ),
                                 IconButton(
-                                  icon: const Icon(Icons.add, color: GenshinTheme.primaryGold),
+                                  icon: const Icon(Icons.add,
+                                      color: GenshinTheme.primaryGold),
                                   onPressed: _incrementQuantity,
                                 ),
                               ],
                             ),
                           ),
-                          
-                          
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
                                 'Subtotal Cost:',
-                                style: GoogleFonts.inter(fontSize: 12, color: GenshinTheme.textMuted),
+                                style: GoogleFonts.inter(
+                                    fontSize: 12,
+                                    color: GenshinTheme.textMuted),
                               ),
                               Text(
                                 '${totalPrice.toStringAsFixed(0)} Mora',
@@ -335,12 +342,14 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                       const SizedBox(height: 30),
                     ],
-
-                    
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: isOutOfStock ? Colors.grey[700] : GenshinTheme.primaryGold,
-                        foregroundColor: isOutOfStock ? Colors.grey[400] : GenshinTheme.bgDark,
+                        backgroundColor: isOutOfStock
+                            ? Colors.grey[700]
+                            : GenshinTheme.primaryGold,
+                        foregroundColor: isOutOfStock
+                            ? Colors.grey[400]
+                            : GenshinTheme.bgDark,
                         minimumSize: const Size(double.infinity, 50),
                       ),
                       onPressed: isOutOfStock ? null : _handleAddToCart,
