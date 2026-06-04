@@ -87,6 +87,33 @@ const mockDb = {
             stock: 30,
             image: 'assets/image6.jpg',
             price: 280.00
+        },
+        {
+            id: 7,
+            name: 'Antique Cuirass',
+            type: 'Artifact',
+            description: 'An ancient chestplate forged from sacred metals. Its presence weakens the offensive will of attackers, reducing the impact of their strikes and protecting the wielder.',
+            stock: 25,
+            image: 'assets/image7.jpg',
+            price: 920.00
+        },
+        {
+            id: 8,
+            name: 'Guardian Helmet',
+            type: 'Artifact',
+            description: 'A majestic helmet imbued with eternal life force. It steadily restores the wearer\'s vitality over time, making them an indomitable guardian of the battlefield.',
+            stock: 15,
+            image: 'assets/image8.jpg',
+            price: 1000.00
+        },
+        {
+            id: 9,
+            name: 'Athena\'s Shield',
+            type: 'Artifact',
+            description: 'A sacred shield blessed by the goddess of wisdom. When struck by powerful magic, it conjures a glowing protective dome that absorbs incoming spell damage.',
+            stock: 20,
+            image: 'assets/image9.jpg',
+            price: 900.00
         }
     ]
 };

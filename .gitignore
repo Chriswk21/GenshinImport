@@ -55,6 +55,5 @@ backend/uploads/*
 # Project raw DOCX parse files
 docx_content.txt
 
-# Allow committing .env files
 !**/.env
 !.env
