@@ -53,19 +53,16 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
-  
   void _openItemFormDialog({Item? item}) {
     final isEditing = item != null;
     final formKey = GlobalKey<FormState>();
 
-    
     final nameController = TextEditingController(text: isEditing ? item.name : '');
     final descriptionController = TextEditingController(text: isEditing ? item.description : '');
     final stockController = TextEditingController(text: isEditing ? item.stock.toString() : '');
     final imageController = TextEditingController(text: isEditing ? item.image : '');
     final priceController = TextEditingController(text: isEditing ? item.price.toString() : '');
-    
-    
+
     String selectedType = isEditing ? item.type : 'Weapon';
     bool isUploading = false;
 
@@ -88,7 +85,6 @@ class _AdminPageState extends State<AdminPage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        
                         TextFormField(
                           controller: nameController,
                           decoration: const InputDecoration(labelText: 'Item Name', hintText: 'e.g. Primordial Jade Winged-Spear'),
@@ -103,10 +99,8 @@ class _AdminPageState extends State<AdminPage> {
                           },
                         ),
                         const SizedBox(height: 12),
-
-                        
                         DropdownButtonFormField<String>(
-                          value: selectedType,
+                          initialValue: selectedType,
                           decoration: const InputDecoration(labelText: 'Item Type'),
                           dropdownColor: GenshinTheme.bgCard,
                           items: const [
@@ -120,8 +114,6 @@ class _AdminPageState extends State<AdminPage> {
                           },
                         ),
                         const SizedBox(height: 12),
-
-                        
                         TextFormField(
                           controller: descriptionController,
                           maxLines: 3,
@@ -137,8 +129,6 @@ class _AdminPageState extends State<AdminPage> {
                           },
                         ),
                         const SizedBox(height: 12),
-
-                        
                         TextFormField(
                           controller: stockController,
                           keyboardType: TextInputType.number,
@@ -154,8 +144,6 @@ class _AdminPageState extends State<AdminPage> {
                           },
                         ),
                         const SizedBox(height: 12),
-
-                        
                         TextFormField(
                           controller: priceController,
                           keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -170,15 +158,12 @@ class _AdminPageState extends State<AdminPage> {
                             return null;
                           },
                         ),
-                        
-                        
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const SizedBox(height: 16),
                             Row(
                               children: [
-                                
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
                                   child: GenshinTheme.buildItemImage(
@@ -283,7 +268,6 @@ class _AdminPageState extends State<AdminPage> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    
                     if (!formKey.currentState!.validate()) {
                       _showSnackBar('Form Validation failed. Please fix form errors.', isError: true);
                       return;
@@ -291,6 +275,7 @@ class _AdminPageState extends State<AdminPage> {
 
                     final token = Provider.of<AuthProvider>(context, listen: false).token;
                     if (token == null) return;
+                    final navigator = Navigator.of(context);
 
                     final payload = {
                       'name': nameController.text.trim(),
@@ -308,12 +293,12 @@ class _AdminPageState extends State<AdminPage> {
                       response = await ApiService.createItem(token, payload);
                     }
 
-                    if (response['success'] == true && mounted) {
-                      _showSnackBar(isEditing ? 'Item updated successfully!' : 'Item inserted successfully!');
-                      Navigator.pop(context);
+                    if (response['success'] == true) {
+                      if (mounted) _showSnackBar(isEditing ? 'Item updated successfully!' : 'Item inserted successfully!');
+                      navigator.pop();
                       _fetchItems();
-                    } else if (mounted) {
-                      _showSnackBar(response['message'] ?? 'Write request failed.', isError: true);
+                    } else {
+                      if (mounted) _showSnackBar(response['message'] ?? 'Write request failed.', isError: true);
                     }
                   },
                   child: Text(isEditing ? 'UPDATE' : 'INSERT'),
@@ -326,7 +311,6 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
-  
   void _confirmDelete(Item item) {
     showDialog(
       context: context,
@@ -353,15 +337,16 @@ class _AdminPageState extends State<AdminPage> {
               onPressed: () async {
                 final token = Provider.of<AuthProvider>(context, listen: false).token;
                 if (token == null) return;
+                final navigator = Navigator.of(context);
 
                 final response = await ApiService.deleteItem(token, item.id);
-                if (response['success'] == true && mounted) {
-                  _showSnackBar('"${item.name}" has been deleted.');
-                  Navigator.pop(context);
+                if (response['success'] == true) {
+                  if (mounted) _showSnackBar('"${item.name}" has been deleted.');
+                  navigator.pop();
                   _fetchItems();
-                } else if (mounted) {
-                  _showSnackBar(response['message'] ?? 'Delete operation failed.', isError: true);
-                  Navigator.pop(context);
+                } else {
+                  if (mounted) _showSnackBar(response['message'] ?? 'Delete operation failed.', isError: true);
+                  navigator.pop();
                 }
               },
               child: const Text('DELETE'),

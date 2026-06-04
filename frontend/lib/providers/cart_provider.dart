@@ -29,7 +29,6 @@ class CartProvider extends ChangeNotifier {
     );
   }
 
-  
   String? addItem(Item item, int quantity) {
     if (quantity <= 0) {
       return 'Quantity must be at least 1.';
@@ -42,11 +41,9 @@ class CartProvider extends ChangeNotifier {
     if (_items.containsKey(item.id)) {
       final existingQty = _items[item.id]!.quantity;
       final newQty = existingQty + quantity;
-      
       if (newQty > item.stock) {
         return 'Cannot add more. Stock limit reached. You have $existingQty in cart. Remaining stock: ${item.stock}.';
       }
-      
       _items[item.id]!.quantity = newQty;
     } else {
       if (quantity > item.stock) {
@@ -54,12 +51,10 @@ class CartProvider extends ChangeNotifier {
       }
       _items[item.id] = CartItem(item: item, quantity: quantity);
     }
-    
     notifyListeners();
-    return null; 
+    return null;
   }
 
-  
   String? updateQuantity(int itemId, int quantity) {
     if (!_items.containsKey(itemId)) return 'Item not in cart.';
 
@@ -78,20 +73,17 @@ class CartProvider extends ChangeNotifier {
     return null;
   }
 
-  
   void removeItem(int itemId) {
     _items.remove(itemId);
     notifyListeners();
   }
 
-  
   void clearCart() {
     _items.clear();
     _checkoutError = null;
     notifyListeners();
   }
 
-  
   Future<bool> checkout(String token) async {
     if (_items.isEmpty) {
       _checkoutError = 'Your cart is empty.';
@@ -103,7 +95,6 @@ class CartProvider extends ChangeNotifier {
     _checkoutError = null;
     notifyListeners();
 
-    
     final cartPayload = _items.values.map((cartItem) {
       return {
         'id': cartItem.item.id,

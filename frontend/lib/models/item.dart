@@ -43,7 +43,6 @@ class Item {
     };
   }
 
-  
   Item copyWith({
     int? id,
     String? name,

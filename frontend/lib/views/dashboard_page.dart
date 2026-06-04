@@ -22,7 +22,7 @@ class _DashboardPageState extends State<DashboardPage> {
   List<Item> _items = [];
   List<Item> _filteredItems = [];
   bool _isLoading = true;
-  String _selectedCategory = 'All'; 
+  String _selectedCategory = 'All';
   String _searchQuery = '';
   final _searchController = TextEditingController();
 
@@ -49,6 +49,7 @@ class _DashboardPageState extends State<DashboardPage> {
       });
     } catch (e) {
       setState(() => _isLoading = false);
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to load Teyvat items: $e'),
@@ -111,7 +112,6 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ),
         actions: [
-          
           Stack(
             alignment: Alignment.center,
             children: [
@@ -166,7 +166,6 @@ class _DashboardPageState extends State<DashboardPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              
               Container(
                 color: const Color(0x331E293B),
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -193,16 +192,15 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       ],
                     ),
-                    
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: authProvider.isAdmin 
-                            ? const Color(0xFFFEE2E2) 
+                        color: authProvider.isAdmin
+                            ? const Color(0xFFFEE2E2)
                             : const Color(0xFFFEF3C7),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: authProvider.isAdmin ? Colors.red : Colors.amber, 
+                          color: authProvider.isAdmin ? Colors.red : Colors.amber,
                           width: 1
                         ),
                       ),
@@ -218,8 +216,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   ],
                 ),
               ),
-
-              
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                 child: TextField(
@@ -240,8 +236,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
               ),
-
-              
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
@@ -254,8 +248,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   ],
                 ),
               ),
-
-              
               Expanded(
                 child: _isLoading
                     ? const Center(child: CircularProgressIndicator(color: GenshinTheme.primaryGold))
@@ -292,7 +284,6 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ),
       ),
-      
       floatingActionButton: authProvider.isAdmin
           ? FloatingActionButton.extended(
               backgroundColor: GenshinTheme.primaryGold,
@@ -338,7 +329,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               const SizedBox(width: 6),
               Text(
-                categoryName + 's',
+                '${categoryName}s',
                 style: GoogleFonts.cinzel(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
@@ -364,7 +355,7 @@ class _DashboardPageState extends State<DashboardPage> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => DetailPage(item: item)),
-          ).then((_) => _fetchItems()); 
+          ).then((_) => _fetchItems());
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -374,14 +365,11 @@ class _DashboardPageState extends State<DashboardPage> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  
                   GenshinTheme.buildItemImage(
                     item.image,
                     fit: BoxFit.cover,
                     iconSize: 48,
                   ),
-                  
-                  
                   Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
@@ -391,8 +379,6 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ),
                   ),
-
-                  
                   Positioned(
                     top: 8,
                     left: 8,
@@ -413,8 +399,6 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ),
                   ),
-
-                  
                   Positioned(
                     top: 8,
                     right: 8,
@@ -437,8 +421,6 @@ class _DashboardPageState extends State<DashboardPage> {
                 ],
               ),
             ),
-
-            
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
@@ -458,7 +440,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      
                       Text(
                         '${item.price.toStringAsFixed(0)} Mora',
                         style: GoogleFonts.inter(
@@ -467,10 +448,8 @@ class _DashboardPageState extends State<DashboardPage> {
                           color: GenshinTheme.textParchment,
                         ),
                       ),
-                      
-                      
-                      Row(
-                        children: const [
+                      const Row(
+                        children: [
                           Icon(Icons.star, size: 10, color: Colors.amber),
                           Icon(Icons.star, size: 10, color: Colors.amber),
                           Icon(Icons.star, size: 10, color: Colors.amber),

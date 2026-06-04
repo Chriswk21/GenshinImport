@@ -1,6 +1,5 @@
 const { getSession } = require('../utils/sessionStore');
 
-
 function verifyToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     
@@ -29,11 +28,9 @@ function verifyToken(req, res, next) {
         });
     }
 
-    
     req.user = session;
     next();
 }
-
 
 function adminOnly(req, res, next) {
     if (!req.user || req.user.roleName !== 'Admin') {
@@ -44,7 +41,6 @@ function adminOnly(req, res, next) {
     }
     next();
 }
-
 
 function userOnly(req, res, next) {
     if (!req.user || req.user.roleName !== 'User') {

@@ -27,7 +27,7 @@ class GenshinImportApp extends StatelessWidget {
       title: 'Genshin Import Store',
       theme: GenshinTheme.themeData,
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(), 
+      home: const LoginPage(),
     );
   }
 }

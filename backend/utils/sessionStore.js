@@ -1,10 +1,6 @@
 const crypto = require('crypto');
 
-
-
 const activeSessions = new Map();
-
-
 
 activeSessions.set('n8x7wfqtsrvxnvsm8dcz', {
     userId: 1,
@@ -21,8 +17,6 @@ activeSessions.set('u8x7wfqtsrvxnvsm8dcuser', {
 });
 
 function createSession(user) {
-    
-    
     const token = crypto.randomBytes(12).toString('hex');
     activeSessions.set(token, {
         userId: user.id,

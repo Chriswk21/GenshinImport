@@ -13,7 +13,6 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  
   void _showFeedbackSnackBar(String message, {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -29,7 +28,6 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  
   void _showSuccessReceiptDialog(double subtotal, double tax, double grandTotal) {
     showDialog(
       context: context,
@@ -64,10 +62,8 @@ class _CartPageState extends State<CartPage> {
               ),
               const SizedBox(height: 20),
               const Divider(color: GenshinTheme.primaryGold, thickness: 1),
-              
-              
-              _buildReceiptRow('Subtotal Mora', '${subtotal.toStringAsFixed(0)}'),
-              _buildReceiptRow('Teyvat VAT (10%)', '${tax.toStringAsFixed(0)}'),
+              _buildReceiptRow('Subtotal Mora', subtotal.toStringAsFixed(0)),
+              _buildReceiptRow('Teyvat VAT (10%)', tax.toStringAsFixed(0)),
               const Divider(color: Color(0xFF334155)),
               _buildReceiptRow(
                 'Grand Total Cost', 
@@ -88,8 +84,8 @@ class _CartPageState extends State<CartPage> {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context); 
-                  Navigator.pop(context); 
+                  Navigator.pop(context);
+                  Navigator.pop(context);
                 },
                 child: const Text('SAFE TRAVELS!'),
               ),
@@ -150,9 +146,8 @@ class _CartPageState extends State<CartPage> {
     final cartProvider = Provider.of<CartProvider>(context);
     final cartItems = cartProvider.items.values.toList();
 
-    
     final subtotal = cartProvider.totalAmount;
-    final tax = subtotal * 0.10; 
+    final tax = subtotal * 0.10;
     final grandTotal = subtotal + tax;
 
     return Scaffold(
@@ -213,7 +208,6 @@ class _CartPageState extends State<CartPage> {
                             padding: const EdgeInsets.all(12.0),
                             child: Row(
                               children: [
-                                
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
                                   child: GenshinTheme.buildItemImage(
@@ -225,8 +219,6 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ),
                                 const SizedBox(width: 16),
-                                
-                                
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,8 +248,6 @@ class _CartPageState extends State<CartPage> {
                                     ],
                                   ),
                                 ),
-
-                                
                                 Row(
                                   children: [
                                     IconButton(
@@ -284,8 +274,6 @@ class _CartPageState extends State<CartPage> {
                                     ),
                                   ],
                                 ),
-
-                                
                                 IconButton(
                                   icon: const Icon(Icons.delete, color: GenshinTheme.accentRed, size: 22),
                                   onPressed: () => cartProvider.removeItem(item.id),
@@ -297,8 +285,6 @@ class _CartPageState extends State<CartPage> {
                       },
                     ),
                   ),
-
-                  
                   Card(
                     margin: const EdgeInsets.all(16),
                     child: Padding(
@@ -315,8 +301,8 @@ class _CartPageState extends State<CartPage> {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          _buildReceiptRow('Subtotal Items Mora', '${subtotal.toStringAsFixed(2)}'),
-                          _buildReceiptRow('Teyvat Trade Tax (10% VAT)', '${tax.toStringAsFixed(2)}'),
+                          _buildReceiptRow('Subtotal Items Mora', subtotal.toStringAsFixed(2)),
+                          _buildReceiptRow('Teyvat Trade Tax (10% VAT)', tax.toStringAsFixed(2)),
                           _buildReceiptRow('Shipping Fee (Mondstadt Express)', 'FREE (0.00)'),
                           const Divider(color: Color(0xFF334155), thickness: 1),
                           _buildReceiptRow(
@@ -326,8 +312,6 @@ class _CartPageState extends State<CartPage> {
                             color: GenshinTheme.primaryGold
                           ),
                           const SizedBox(height: 16),
-                          
-                          
                           cartProvider.isCheckingOut
                               ? const Center(child: CircularProgressIndicator(color: GenshinTheme.primaryGold))
                               : ElevatedButton(

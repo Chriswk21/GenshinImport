@@ -1,6 +1,5 @@
 const mysql = require('mysql2/promise');
 
-
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -101,7 +100,6 @@ async function initDb() {
             queueLimit: 0
         });
 
-        
         const connection = await pool.getConnection();
         console.log('--------------------------------------------------');
         console.log('🟢 SUCCESS: Connected to MySQL database "genshin_import".');
@@ -136,8 +134,7 @@ async function query(sql, params = []) {
 
 function handleMockQuery(sql, params) {
     const cleanSql = sql.trim().toLowerCase().replace(/\s+/g, ' ');
-    
-    
+
     if (cleanSql.includes('select u.*, r.name as rolename from users u join roles r')) {
         const email = params[0];
         const user = mockDb.users.find(u => u.email === email);
@@ -149,23 +146,35 @@ function handleMockQuery(sql, params) {
         }];
     }
 
+    if (cleanSql.includes('select * from users where email =')) {
+        const email = params[0];
+        const user = mockDb.users.find(u => u.email === email);
+        return user ? [user] : [];
+    }
 
+    if (cleanSql.startsWith('insert into users')) {
+        const newUser = {
+            id: mockDb.users.length > 0 ? Math.max(...mockDb.users.map(u => u.id)) + 1 : 3,
+            name: params[0],
+            email: params[1],
+            password: params[2],
+            role_id: params[3] || 2
+        };
+        mockDb.users.push(newUser);
+        return { insertId: newUser.id };
+    }
 
-    
     if (cleanSql.includes('select * from items') && !cleanSql.includes('where id =')) {
         return mockDb.items;
     }
 
-    
     if (cleanSql.includes('select * from items where id =')) {
         const id = parseInt(params[0]);
         const item = mockDb.items.find(i => i.id === id);
         return item ? [item] : [];
     }
 
-    
     if (cleanSql.startsWith('insert into items')) {
-        
         const newItem = {
             id: mockDb.items.length > 0 ? Math.max(...mockDb.items.map(i => i.id)) + 1 : 1,
             name: params[0],
@@ -179,10 +188,7 @@ function handleMockQuery(sql, params) {
         return { insertId: newItem.id };
     }
 
-    
     if (cleanSql.startsWith('update items')) {
-        
-        
         if (cleanSql.includes('set stock = stock -')) {
             const qty = parseInt(params[0]);
             const id = parseInt(params[1]);
@@ -211,7 +217,6 @@ function handleMockQuery(sql, params) {
         }
     }
 
-    
     if (cleanSql.startsWith('delete from items')) {
         const id = parseInt(params[0]);
         const itemIndex = mockDb.items.findIndex(i => i.id === id);
@@ -222,7 +227,6 @@ function handleMockQuery(sql, params) {
         return { affectedRows: 0 };
     }
 
-    
     return [];
 }
 

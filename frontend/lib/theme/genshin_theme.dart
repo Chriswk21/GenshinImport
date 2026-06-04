@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class GenshinTheme {
-  
-  static const Color primaryGold = Color(0xFFD3BC8E); 
-  static const Color secondaryGold = Color(0xFFA78B50); 
-  static const Color bgDark = Color(0xFF0A0F1D); 
-  static const Color bgCard = Color(0xFF161F32); 
-  static const Color accentCyan = Color(0xFF3AAFA9); 
-  static const Color accentRed = Color(0xFFE06C75); 
+  static const Color primaryGold = Color(0xFFD3BC8E);
+  static const Color secondaryGold = Color(0xFFA78B50);
+  static const Color bgDark = Color(0xFF0A0F1D);
+  static const Color bgCard = Color(0xFF161F32);
+  static const Color accentCyan = Color(0xFF3AAFA9);
+  static const Color accentRed = Color(0xFFE06C75);
 
-  
-  static const Color textParchment = Color(0xFFECE5D8); 
-  static const Color textMuted = Color(0xFF9E9F9F); 
+  static const Color textParchment = Color(0xFFECE5D8);
+  static const Color textMuted = Color(0xFF9E9F9F);
 
   static ThemeData get themeData {
     return ThemeData(
@@ -20,19 +18,15 @@ class GenshinTheme {
       brightness: Brightness.dark,
       scaffoldBackgroundColor: bgDark,
       primaryColor: primaryGold,
-      
-      
       fontFamily: GoogleFonts.inter().fontFamily,
 
       colorScheme: const ColorScheme.dark(
         primary: primaryGold,
         secondary: accentCyan,
-        background: bgDark,
         surface: bgCard,
         error: accentRed,
         onPrimary: bgDark,
         onSecondary: bgDark,
-        onBackground: textParchment,
         onSurface: textParchment,
       ),
 
@@ -74,7 +68,7 @@ class GenshinTheme {
         color: bgCard,
         elevation: 6,
         shape: RoundedRectangleBorder(
-          side: const BorderSide(color: Color(0xFF334155), width: 1), 
+          side: const BorderSide(color: Color(0xFF334155), width: 1),
           borderRadius: BorderRadius.circular(12),
         ),
       ),
@@ -146,7 +140,6 @@ class GenshinTheme {
     );
   }
 
-  
   static BoxDecoration get goldBorderDecoration {
     return BoxDecoration(
       color: bgCard,
@@ -162,7 +155,6 @@ class GenshinTheme {
     );
   }
 
-  
   static BoxDecoration get mysticBackground {
     return const BoxDecoration(
       gradient: LinearGradient(
@@ -173,10 +165,9 @@ class GenshinTheme {
     );
   }
 
-  
   static Widget buildItemImage(String imagePath, {double? width, double? height, BoxFit fit = BoxFit.cover, double? iconSize}) {
     final fallbackIcon = Icon(
-      Icons.auto_awesome, 
+      Icons.auto_awesome,
       size: iconSize ?? 40,
       color: primaryGold,
     );

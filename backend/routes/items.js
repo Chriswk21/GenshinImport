@@ -3,14 +3,10 @@ const router = express.Router();
 const { query } = require('../config/db');
 const { verifyToken, adminOnly } = require('../middleware/authMiddleware');
 
-
-
 router.get('/', async (req, res) => {
     try {
         const sql = 'SELECT * FROM items';
         const items = await query(sql);
-        
-        
         return res.status(200).json({
             success: true,
             data: items
@@ -23,8 +19,6 @@ router.get('/', async (req, res) => {
         });
     }
 });
-
-
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
@@ -52,12 +46,9 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-
-
 router.post('/', verifyToken, adminOnly, async (req, res) => {
     const { name, type, description, stock, image, price } = req.body;
 
-    
     if (!name || !type || !description || stock === undefined || !image || price === undefined) {
         return res.status(400).json({
             success: false,
@@ -106,13 +97,10 @@ router.post('/', verifyToken, adminOnly, async (req, res) => {
     }
 });
 
-
-
 router.put('/:id', verifyToken, adminOnly, async (req, res) => {
     const { id } = req.params;
     const { name, type, description, stock, image, price } = req.body;
 
-    
     if (!name || !type || !description || stock === undefined || !image || price === undefined) {
         return res.status(400).json({
             success: false,
@@ -135,7 +123,6 @@ router.put('/:id', verifyToken, adminOnly, async (req, res) => {
     }
 
     try {
-        
         const checkSql = 'SELECT * FROM items WHERE id = ?';
         const items = await query(checkSql, [id]);
         if (items.length === 0) {
@@ -171,13 +158,10 @@ router.put('/:id', verifyToken, adminOnly, async (req, res) => {
     }
 });
 
-
-
 router.delete('/:id', verifyToken, adminOnly, async (req, res) => {
     const { id } = req.params;
 
     try {
-        
         const checkSql = 'SELECT * FROM items WHERE id = ?';
         const items = await query(checkSql, [id]);
         if (items.length === 0) {
@@ -203,10 +187,8 @@ router.delete('/:id', verifyToken, adminOnly, async (req, res) => {
     }
 });
 
-
-
 router.post('/buy', verifyToken, async (req, res) => {
-    const { cart } = req.body; 
+    const { cart } = req.body;
 
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
         return res.status(400).json({
@@ -216,7 +198,6 @@ router.post('/buy', verifyToken, async (req, res) => {
     }
 
     try {
-        
         for (const cartItem of cart) {
             const { id, quantity } = cartItem;
 
@@ -246,7 +227,6 @@ router.post('/buy', verifyToken, async (req, res) => {
             }
         }
 
-        
         for (const cartItem of cart) {
             const { id, quantity } = cartItem;
             const updateSql = 'UPDATE items SET stock = stock - ? WHERE id = ?';

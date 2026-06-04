@@ -1,53 +1,40 @@
-
-
-
 CREATE DATABASE IF NOT EXISTS genshin_import;
 USE genshin_import;
-
 
 DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
-
 
 CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE
 );
 
-
 INSERT INTO roles (name) VALUES ('Admin'), ('User');
-
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL, 
+    password VARCHAR(255) NOT NULL,
     role_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE RESTRICT
 );
 
-
-
-
-
-INSERT INTO users (name, email, password, role_id) VALUES 
+INSERT INTO users (name, email, password, role_id) VALUES
 ('Lumine Admin', 'admin@genshin.com', '$2a$10$1qnV3y6wtn5T8ZkyL6bQzuDC0ZJ655sgc76OjhUBDxqY/Wua4pduu', 1),
 ('Aether User', 'user@genshin.com', '$2a$10$r0.5rJ1zgX/iFyUKxV6HwupFvyIm9cVBKX1YqXS7amM7vyIBnXcXa', 2);
-
-
 
 CREATE TABLE items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
-    type VARCHAR(50) NOT NULL, 
+    type VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
     stock INT NOT NULL CHECK (stock >= 0),
     image VARCHAR(255) NOT NULL,
     price DECIMAL(10, 2) NOT NULL CHECK (price >= 0)
 );
-
 
 INSERT INTO items (name, type, description, stock, image, price) VALUES
 ('Celestial Azure Wand', 'Weapon', 'A mystical azure catalyst forged from high-purity crystal marrow and stardust. It channels volatile elemental energies into powerful arcane blasts, serving as the ultimate wand for Teyvat''s grand mages.', 10, 'assets/image1.jpg', 1200.00),
