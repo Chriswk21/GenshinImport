@@ -55,5 +55,6 @@ backend/uploads/*
 # Project raw DOCX parse files
 docx_content.txt
 
-# Flutter dart-define env file
-frontend/.env
+# Allow committing .env files
+!**/.env
+!.env
